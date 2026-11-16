@@ -1,0 +1,37 @@
+.theme-light {
+  background: var(--cream);
+  color: var(--cocoa);
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 100;
+  background: var(--cream);
+  color: var(--cocoa);
+  padding: 10px 16px;
+  border-radius: 999px;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+.page-wipe {
+  position: fixed;
+  inset: -5vh 0;
+  z-index: 900;
+  background: var(--mandarine);
+  visibility: hidden;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  border-radius: 0 0 50% 50% / 0 0 8vh 8vh;
+}
+
+.page-wipe img {
+  width: clamp(90px, 12vw, 160px);
+  filter: brightness(0) invert(94%) sepia(6%) saturate(400%);
+}

@@ -1,0 +1,145 @@
+.footer {
+  position: relative;
+  color: #161313;
+  margin-top: clamp(40px, 8vw, 120px);
+}
+
+/* The brush logo sits on a torn butter shape; the solid butter band starts ~52% down the artwork */
+.footer__logo {
+  background: linear-gradient(to bottom, transparent 52%, var(--butter) 52%);
+  overflow: hidden;
+}
+
+.footer__logo img {
+  width: 100%;
+  height: auto;
+  transform-origin: 50% 80%;
+  transition: transform 1.2s var(--ease);
+}
+
+.footer:hover .footer__logo img {
+  transform: rotate(-1deg) scale(1.01);
+}
+
+.footer__body {
+  background: var(--butter);
+  padding: clamp(40px, 5vw, 64px) clamp(20px, 3vw, 44px) clamp(24px, 2.4vw, 32px);
+  display: grid;
+  gap: clamp(48px, 7vw, 100px);
+}
+
+.footer__top,
+.footer__bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+}
+
+.footer__top {
+  align-items: start;
+}
+
+.footer__col--right {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.footer__label {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 16.5px;
+  letter-spacing: 0.02em;
+  opacity: 0.8;
+  margin-bottom: 23px;
+}
+
+.footer__list {
+  display: grid;
+  gap: 4px;
+  font-size: 22px;
+  line-height: 1.4;
+}
+
+.footer__list--services {
+  color: var(--burgundy);
+  font-size: 27px;
+  line-height: 1.1;
+  gap: 8px;
+}
+
+.footer__list a {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size 0.4s var(--ease);
+}
+
+.footer__list a:hover {
+  background-size: 100% 1px;
+}
+
+.footer__whatsapp {
+  width: min(228px, 100%);
+  height: 101px;
+  border-radius: 12px;
+  background: var(--olive);
+  color: var(--cream);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 16px 19px;
+  font-family: var(--ui);
+  font-size: 14px;
+  transition: transform 0.4s var(--ease), background 0.3s;
+}
+
+.footer__wa-icon {
+  align-self: flex-start;
+  font-size: 18px;
+}
+
+.footer__whatsapp:hover {
+  transform: rotate(-3deg) translateY(-4px);
+  background: #8f8630;
+}
+
+.footer__small {
+  font-family: var(--ui);
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.footer__bottom-right {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.footer__email {
+  display: grid;
+  gap: 14px;
+  font-family: var(--ui);
+  font-size: 15.5px;
+}
+
+.footer__langs {
+  display: flex;
+  gap: 8px;
+  font-family: var(--ui);
+  font-size: 13.6px;
+}
+
+@media (max-width: 720px) {
+  .footer__top,
+  .footer__bottom {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .footer__bottom {
+    gap: 24px;
+  }
+  .footer__bottom > .footer__small {
+    order: 2;
+  }
+}

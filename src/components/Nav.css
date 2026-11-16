@@ -1,0 +1,165 @@
+.nav {
+  position: relative;
+  z-index: 50;
+  padding-top: clamp(24px, 5.8vw, 84px);
+  color: var(--cream);
+}
+
+.nav--light {
+  color: var(--cocoa);
+}
+
+.nav__bar {
+  width: min(100% - 2 * var(--page-pad), var(--content));
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.nav__logo .mask-icon {
+  width: 38px;
+  height: 31px;
+  transition: transform 0.4s var(--ease);
+}
+
+.nav__logo:hover .mask-icon {
+  transform: rotate(-12deg) scale(1.1);
+}
+
+.nav__links {
+  display: flex;
+  gap: clamp(8px, 2vw, 30px);
+}
+
+.nav__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 12px;
+  font-size: clamp(20px, 1.9vw, 27px);
+  line-height: 1;
+  transition: transform 0.3s var(--ease), opacity 0.3s;
+}
+
+.nav__link .hand-outline {
+  inset: -2px -6px;
+}
+
+.nav__link:not(.is-active):hover {
+  transform: translateY(-2px) rotate(-2deg);
+}
+
+.nav__link .mask-icon {
+  width: 19px;
+  height: 22px;
+}
+
+.nav__cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 58px;
+  padding: 7px 22px;
+  font-size: clamp(20px, 1.9vw, 27px);
+  line-height: 1;
+  color: var(--cream);
+  isolation: isolate;
+  transition: transform 0.35s var(--ease);
+}
+
+.nav__cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url('/assets/btn-olive.png') center / 100% 100% no-repeat;
+}
+
+.nav__cta:hover {
+  transform: rotate(-3deg) scale(1.04);
+}
+
+.nav__cta .mask-icon {
+  width: 19px;
+  height: 20px;
+}
+
+.nav__menu {
+  display: none;
+  position: relative;
+  padding: 10px 22px;
+  font-family: var(--serif);
+  font-size: 22px;
+}
+
+.nav__sheet {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .nav__links,
+  .nav__bar > .nav__cta {
+    display: none;
+  }
+  .nav__menu {
+    display: inline-flex;
+  }
+  .nav__sheet:not([hidden]) {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    padding: 120px var(--page-pad) 48px;
+    background: var(--cocoa);
+    color: var(--cream);
+    animation: sheet-in 0.45s var(--ease);
+  }
+  .nav.is-open .nav__bar {
+    color: var(--cream);
+  }
+  .nav__sheet-link {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: clamp(44px, 12vw, 72px);
+    line-height: 1.05;
+    animation: link-in 0.5s var(--ease) both;
+    animation-delay: calc(var(--i) * 0.05s + 0.1s);
+  }
+  .nav__sheet-link .mask-icon {
+    width: 32px;
+    height: 36px;
+  }
+  .nav__sheet-link.active {
+    color: var(--sky);
+  }
+  .nav__cta--sheet {
+    align-self: flex-start;
+    margin-top: 18px;
+    animation: link-in 0.5s var(--ease) both;
+    animation-delay: 0.4s;
+  }
+}
+
+@keyframes sheet-in {
+  from {
+    clip-path: circle(0% at calc(100% - 60px) 60px);
+  }
+  to {
+    clip-path: circle(150% at calc(100% - 60px) 60px);
+  }
+}
+
+@keyframes link-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) rotate(-3deg);
+  }
+}

@@ -1,0 +1,160 @@
+.works {
+  padding-top: 60px;
+}
+
+.works__filters {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 32px;
+  padding: 13px 40px;
+  background:
+    linear-gradient(rgba(248, 21, 0, 0.06) 1px, transparent 1px) 0 0 / 100% 12px,
+    var(--cream);
+  border-radius: 104px;
+  color: var(--red);
+}
+
+.works__tape {
+  position: absolute;
+  top: -10px;
+  width: 80px;
+  height: 22px;
+  background: rgba(255, 241, 210, 0.75);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.works__tape--l {
+  left: 30px;
+  rotate: -8deg;
+}
+
+.works__tape--r {
+  right: 30px;
+  rotate: 7deg;
+}
+
+.works__filter {
+  position: relative;
+  padding: 14px 14px;
+  font-size: clamp(20px, 1.9vw, 27px);
+  line-height: 1;
+  transition: transform 0.3s var(--ease);
+}
+
+.works__filter:hover {
+  transform: rotate(-3deg);
+}
+
+.works__grid {
+  margin-top: 45px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 30px;
+}
+
+/* Bento rhythm from the Figma page: 2 wide, 3 medium, then 1 large + 1 small, repeat. */
+.work-card {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  background: var(--cocoa-card);
+  border: 1px solid rgba(248, 239, 230, 0.6);
+  border-radius: 12px;
+  padding: 16px;
+  transition: transform 0.5s var(--ease), border-color 0.3s;
+  animation: card-in 0.7s var(--ease) both;
+  animation-delay: calc(var(--i) * 0.05s);
+}
+
+.work-card:nth-child(7n + 1),
+.work-card:nth-child(7n + 2) {
+  grid-column: span 3;
+}
+
+.work-card:nth-child(7n + 6) {
+  grid-column: span 4;
+}
+
+.work-card:hover {
+  transform: translateY(-6px) rotate(-1deg);
+  border-color: var(--cream);
+}
+
+.work-card__img {
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+}
+
+.work-card__img img,
+.work-card__img video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s var(--ease);
+}
+
+.work-card:hover .work-card__img img {
+  transform: scale(1.05);
+}
+
+.work-card__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 16px 8px 0;
+}
+
+.work-card__title {
+  font-size: clamp(24px, 2.5vw, 36px);
+  line-height: 1.1;
+}
+
+.work-card__cat {
+  font-family: var(--sans);
+  font-size: 13px;
+  opacity: 0.7;
+  white-space: nowrap;
+}
+
+.works__empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 24px;
+  padding: 80px 0;
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+}
+
+@media (max-width: 900px) {
+  .works__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .work-card,
+  .work-card:nth-child(n) {
+    grid-column: span 1;
+  }
+  .work-card:nth-child(3n + 1) {
+    grid-column: span 2;
+  }
+  .works__filters {
+    border-radius: 28px;
+    gap: 4px 14px;
+    padding: 12px 18px;
+  }
+}
+
+@media (max-width: 560px) {
+  .work-card:nth-child(n) {
+    grid-column: span 2;
+  }
+}

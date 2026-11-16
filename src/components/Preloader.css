@@ -1,0 +1,74 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--cocoa);
+  overflow: hidden;
+  pointer-events: all;
+}
+
+.preloader__sq {
+  position: absolute;
+  height: auto;
+  pointer-events: none;
+}
+
+.preloader__sq--a {
+  top: 10vh;
+  left: -1vw;
+  width: 102vw;
+}
+
+.preloader__sq--b {
+  top: 3vh;
+  left: -4vw;
+  width: 32vw;
+  transform: scaleY(-1);
+}
+
+.preloader__sq--c {
+  top: 18vh;
+  right: -6vw;
+  width: 37vw;
+  transform: rotate(-4deg);
+}
+
+.preloader__line {
+  position: absolute;
+  top: clamp(120px, 20vh, 207px);
+  left: 50%;
+  translate: -50% 0;
+  font-size: clamp(22px, 2.5vw, 36px);
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+
+.preloader__m {
+  position: absolute;
+  left: 50%;
+  top: clamp(190px, 29vh, 298px);
+  width: clamp(200px, 33vw, 473px);
+  translate: -52% 0;
+}
+
+.preloader__sticker {
+  position: absolute;
+  height: auto;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.25));
+}
+
+.preloader__count {
+  position: absolute;
+  right: clamp(20px, 3.4vw, 49px);
+  top: 62vh;
+  font-size: clamp(96px, 16.7vw, 240px);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 720px) {
+  .preloader__count {
+    top: auto;
+    bottom: 42vh;
+  }
+}
