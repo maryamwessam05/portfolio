@@ -20,7 +20,6 @@ export default function ResearchTemplate({ project: p, data: d, show }) {
                 <h2 className="note-card__title">Research methodology</h2>
                 <p className="note-card__body">{d.methodology_body}</p>
               </div>
-              {/* Stacking cards: each one sticks and the next slides over it */}
               <div className="methods__stack">
                 {methods.map((m, i) => (
                   <article

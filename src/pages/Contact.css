@@ -316,7 +316,7 @@
   top: 40px;
   rotate: -1deg;
   color: var(--cocoa);
-  background: url('/assets/receipt.png') center / 100% 100% no-repeat;
+  background: url("/assets/receipt.png") center / 100% 100% no-repeat;
   padding: 55px 28px 48px;
   filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.35));
 }

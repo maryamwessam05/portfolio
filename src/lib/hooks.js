@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 
-/** Adds `.is-in` to every [data-reveal] element as it scrolls into view, including ones rendered later. */
 export function useRevealObserver(deps = []) {
   useEffect(() => {
     if (typeof IntersectionObserver === 'undefined') return
@@ -8,13 +7,13 @@ export function useRevealObserver(deps = []) {
       (entries) =>
         entries.forEach((e) => {
           if (e.isIntersecting) {
-            e.target.classList.add('is-in')
+            e.target.setAttribute('data-revealed', '')
             io.unobserve(e.target)
           }
         }),
       { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
     )
-    const watch = (root) => root.querySelectorAll?.('[data-reveal]:not(.is-in)').forEach((el) => io.observe(el))
+    const watch = (root) => root.querySelectorAll?.('[data-reveal]:not([data-revealed])').forEach((el) => io.observe(el))
     watch(document)
     const mo = new MutationObserver((muts) => muts.forEach((m) => m.addedNodes.forEach((n) => n.nodeType === 1 && (n.matches?.('[data-reveal]') ? io.observe(n) : watch(n)))))
     mo.observe(document.body, { childList: true, subtree: true })
@@ -26,7 +25,6 @@ export function useRevealObserver(deps = []) {
   }, deps)
 }
 
-/** Makes children with [data-drag] draggable inside the given container ref (pointer events, touch-friendly). */
 export function useDraggable(containerRef, deps = []) {
   useEffect(() => {
     const root = containerRef.current
@@ -116,7 +114,6 @@ export const safeSession = {
     try {
       sessionStorage.setItem(k, v)
     } catch {
-      /* storage unavailable */
     }
   },
 }

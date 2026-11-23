@@ -50,8 +50,8 @@
   inset: 0 -6px;
   z-index: -1;
   background: var(--fill, var(--cream));
-  -webkit-mask: url('/assets/btn-olive.png') center / 100% 100% no-repeat;
-  mask: url('/assets/btn-olive.png') center / 100% 100% no-repeat;
+  -webkit-mask: url("/assets/btn-olive.png") center / 100% 100% no-repeat;
+  mask: url("/assets/btn-olive.png") center / 100% 100% no-repeat;
 }
 
 .pill--filled {

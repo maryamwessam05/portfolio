@@ -54,7 +54,6 @@
   gap: 30px;
 }
 
-/* Bento rhythm from the Figma page: 2 wide, 3 medium, then 1 large + 1 small, repeat. */
 .work-card {
   grid-column: span 2;
   display: flex;

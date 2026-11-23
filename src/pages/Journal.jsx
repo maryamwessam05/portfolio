@@ -66,7 +66,6 @@ export default function Journal() {
   )
 }
 
-/** "What's on your mind?" — topic suggestions (kept on this device until a suggestions table exists). */
 function Suggest() {
   const [topic, setTopic] = useState('')
   const [name, setName] = useState('')

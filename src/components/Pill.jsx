@@ -1,10 +1,6 @@
 import { Link } from 'react-router-dom'
 import './Pill.css'
 
-/**
- * Hand-drawn pill button from the design system.
- * variant: "outline" (brush outline in currentColor) | "filled" (brush blob in --fill)
- */
 export default function Pill({
   to,
   href,

@@ -72,11 +72,11 @@
 }
 
 .nav__cta::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: url('/assets/btn-olive.png') center / 100% 100% no-repeat;
+  background: url("/assets/btn-olive.png") center / 100% 100% no-repeat;
 }
 
 .nav__cta:hover {
@@ -98,6 +98,42 @@
 
 .nav__sheet {
   display: none;
+}
+
+@keyframes sheet-in {
+  from {
+    clip-path: circle(0% at calc(100% - 60px) 60px);
+  }
+  to {
+    clip-path: circle(150% at calc(100% - 60px) 60px);
+  }
+}
+
+@keyframes link-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) rotate(-3deg);
+  }
+}
+
+.nav-icon {
+  flex: none;
+  width: auto;
+  height: 1em;
+  overflow: visible;
+}
+
+.nav__link .nav-icon,
+.nav__cta .nav-icon {
+  height: 0.95em;
+}
+
+.nav__sheet-link .nav-icon {
+  height: 0.6em;
+}
+
+.nav-icon--services {
+  pointer-events: none;
 }
 
 @media (max-width: 960px) {
@@ -145,21 +181,5 @@
     margin-top: 18px;
     animation: link-in 0.5s var(--ease) both;
     animation-delay: 0.4s;
-  }
-}
-
-@keyframes sheet-in {
-  from {
-    clip-path: circle(0% at calc(100% - 60px) 60px);
-  }
-  to {
-    clip-path: circle(150% at calc(100% - 60px) 60px);
-  }
-}
-
-@keyframes link-in {
-  from {
-    opacity: 0;
-    transform: translateY(24px) rotate(-3deg);
   }
 }

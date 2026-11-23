@@ -12,7 +12,100 @@
   filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.18));
 }
 
-/* --------------------------- Closing CTA --------------------------- */
+@property --peel {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.sticker.peel {
+  --peel: 0;
+  --w: 100px;
+  --h: 100px;
+  --s: 100px;
+  --o: 0;
+  --p: calc(var(--o) * var(--w) + var(--peel) * var(--s));
+  --cut: calc(100% - var(--p) * 0.7071);
+  display: block;
+  pointer-events: auto;
+  cursor: grab;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    --peel 0.7s cubic-bezier(0.22, 1.4, 0.36, 1),
+    translate 0.45s cubic-bezier(0.22, 1.2, 0.36, 1),
+    scale 0.45s cubic-bezier(0.22, 1.2, 0.36, 1),
+    filter 0.45s ease;
+}
+
+.sticker.peel[data-in] {
+  --peel: 0.1;
+}
+
+.sticker.peel:hover {
+  --peel: 0.24;
+  translate: 0 -4px;
+  scale: 1.04;
+  filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.26));
+}
+
+.sticker.peel:active {
+  --peel: 0.42;
+  cursor: grabbing;
+  translate: 0 -10px;
+  scale: 1.08;
+  filter: drop-shadow(0 22px 26px rgba(0, 0, 0, 0.3));
+  transition-duration: 0.35s;
+}
+
+.peel__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  -webkit-mask-image: linear-gradient(var(--a), #000 var(--cut), transparent var(--cut));
+  mask-image: linear-gradient(var(--a), #000 var(--cut), transparent var(--cut));
+}
+
+.peel__flap-shadow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  filter: drop-shadow(-3px -3px 4px rgba(0, 0, 0, 0.22));
+}
+
+.peel__flap {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
+  background: linear-gradient(var(--a), #cfc6bd var(--cut), #f3eee8 calc(var(--cut) + var(--p) * 0.3), #fff 100%);
+  -webkit-mask-image: var(--src), linear-gradient(var(--a), transparent var(--cut), #000 var(--cut));
+  mask-image: var(--src), linear-gradient(var(--a), transparent var(--cut), #000 var(--cut));
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+.peel--br {
+  --a: 135deg;
+}
+
+.peel--br .peel__flap {
+  --c: calc(var(--w) + var(--h) - var(--p));
+  transform: translate(var(--c), var(--c)) matrix(0, -1, -1, 0, 0, 0);
+}
+
+.peel--bl {
+  --a: 225deg;
+}
+
+.peel--bl .peel__flap {
+  --m: calc(var(--h) - var(--p));
+  transform: translate(calc(-1 * var(--m)), var(--m)) matrix(0, 1, 1, 0, 0, 0);
+}
+
 .closing-cta {
   position: relative;
   min-height: clamp(560px, 60vw, 864px);
@@ -77,7 +170,6 @@
   transform: rotate(-4deg) scale(1.06);
 }
 
-/* ------------------------------- FAQ ------------------------------- */
 .faq {
   background: var(--cream);
   color: var(--burgundy);
@@ -175,13 +267,6 @@
   line-height: 1.55;
 }
 
-@media (max-width: 820px) {
-  .faq__inner {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* --------------------------- Template bits ------------------------- */
 .tpl-heading {
   font-size: var(--fs-h2);
   text-align: center;
@@ -256,17 +341,6 @@
   border-radius: 4px;
 }
 
-@media (max-width: 760px) {
-  .kind-words__row {
-    grid-template-columns: 1fr;
-  }
-  .kind-words__img {
-    width: 70%;
-    justify-self: end;
-    margin-top: -20px;
-  }
-}
-
 .up-next {
   padding-block: clamp(48px, 6vw, 96px) 0;
 }
@@ -328,7 +402,6 @@
   transform: translateX(10px);
 }
 
-/* ------------------------------ Loading ---------------------------- */
 .page-loading {
   min-height: 70vh;
   display: grid;
@@ -345,4 +418,27 @@
 
 .page-loading--light {
   color: var(--cocoa);
+}
+
+@media (max-width: 820px) {
+  .faq__inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .kind-words__row {
+    grid-template-columns: 1fr;
+  }
+  .kind-words__img {
+    width: 70%;
+    justify-self: end;
+    margin-top: -20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticker.peel {
+    transition: none;
+  }
 }

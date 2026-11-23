@@ -1,4 +1,3 @@
-/** Section title: Pinklatte script line over a big Instrument Serif caps line. */
 export default function TitleStack({ script, main, scriptColor, mainColor, as: Tag = 'h2', className = '', style }) {
   return (
     <Tag className={`title-stack ${className}`} style={style} data-reveal>

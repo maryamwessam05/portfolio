@@ -5,7 +5,6 @@ import { Media, Sticker } from '../../components/Shared'
 import { categoryStyle } from '../../lib/theme'
 import { coverOf } from '../../lib/data'
 
-// Tab offsets and tilts per folder, from the "what i SERVE" stack in Figma.
 const LAYOUT = {
   branding: { tab: 13, rot: 0 },
   'ux-ui-design': { tab: 40, rot: 1 },
@@ -19,11 +18,9 @@ const LAYOUT = {
 }
 const FOLDER_STICKERS = { 'game-ux-ui': 'disco', 'coding-development': 'cups', 'xr-interaction-design': 'folder', 'graphic-design': 'cups' }
 
-/** "what i SERVE": a stack of folders. Hover (or tap) a folder to push the others down and peek at its work. */
 export default function Folders({ categories, projects }) {
   const [open, setOpen] = useState(null)
-  // Empty folders sit at the back so the front (open) folder always has work in it.
-  const ordered = [...categories].sort((a, b) => hasWork(a) - hasWork(b))
+  const ordered = categories.filter((c) => c.slug !== 'xr-interaction-design').sort((a, b) => hasWork(a) - hasWork(b))
   function hasWork(c) {
     return projects.some((p) => p.categories.some((pc) => pc.slug === c.slug)) ? 1 : 0
   }

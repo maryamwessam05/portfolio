@@ -3,7 +3,6 @@ import { Media } from '../../components/Shared'
 
 const list = (v) => (Array.isArray(v) ? v : v ? String(v).split(/\n|;|•/).map((s) => s.trim()).filter(Boolean) : [])
 
-/* ---------------------- Sticky process navigation ---------------------- */
 export function Process({ steps, children, toggle = true }) {
   const [active, setActive] = useState(steps[0]?.id)
   const [detailed, setDetailed] = useState(true)
@@ -56,7 +55,6 @@ export function Step({ id, children, className = '' }) {
   )
 }
 
-/* Cards with a red pin, tilted like they were pinned to a board */
 export function PinnedCards({ items = [] }) {
   if (!items.length) return null
   return (
@@ -108,7 +106,6 @@ export function JourneySteps({ items = [] }) {
   )
 }
 
-/* -------------------------- Dark showcase blocks ------------------------ */
 export function Showcase({ title, children, className = '' }) {
   return (
     <section className={`showcase section ${className}`}>
@@ -228,7 +225,6 @@ export function Gallery({ title, images = [] }) {
   )
 }
 
-/** Cream rounded card on the cream band (Concept, Brief, Research objective…) */
 export function NoteCard({ eyebrow, title, body, tone = 'cream', children }) {
   if (!body && !children) return null
   return (

@@ -5,7 +5,6 @@ import { useIntroDone } from '../../lib/intro'
 import { safeSession } from '../../lib/hooks'
 import { Sticker } from '../../components/Shared'
 
-/** "View my grad project" popup from the Figma "popup" frame. Shows once per session. */
 export default function GradPopup({ fallbackImage }) {
   const introDone = useIntroDone()
   const [open, setOpen] = useState(false)

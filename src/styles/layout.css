@@ -19,19 +19,21 @@
   top: 12px;
 }
 
-.page-wipe {
+.scribble {
   position: fixed;
-  inset: -5vh 0;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: 900;
-  background: var(--mandarine);
-  visibility: hidden;
-  display: grid;
-  place-items: center;
   pointer-events: none;
-  border-radius: 0 0 50% 50% / 0 0 8vh 8vh;
+  visibility: hidden;
+  overflow: visible;
 }
 
-.page-wipe img {
-  width: clamp(90px, 12vw, 160px);
-  filter: brightness(0) invert(94%) sepia(6%) saturate(400%);
+.scribble path {
+  fill: none;
+  stroke: var(--mandarine);
+  stroke-width: 40;
+  stroke-linecap: round;
+  stroke-linejoin: miter;
 }

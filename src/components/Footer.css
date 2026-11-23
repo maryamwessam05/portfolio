@@ -4,7 +4,6 @@
   margin-top: clamp(40px, 8vw, 120px);
 }
 
-/* The brush logo sits on a torn butter shape; the solid butter band starts ~52% down the artwork */
 .footer__logo {
   background: linear-gradient(to bottom, transparent 52%, var(--butter) 52%);
   overflow: hidden;
@@ -14,11 +13,6 @@
   width: 100%;
   height: auto;
   transform-origin: 50% 80%;
-  transition: transform 1.2s var(--ease);
-}
-
-.footer:hover .footer__logo img {
-  transform: rotate(-1deg) scale(1.01);
 }
 
 .footer__body {

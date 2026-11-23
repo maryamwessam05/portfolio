@@ -1,4 +1,3 @@
-// Colour pairs per work category, taken from the folder stack on the Home design.
 export const CATEGORY_STYLE = {
   branding: { bg: 'var(--lilac)', fg: 'var(--cocoa)' },
   'ux-ui-design': { bg: 'var(--red)', fg: 'var(--cream)' },
@@ -24,7 +23,6 @@ export const STICKERS = {
 
 export const STICKER_LIST = Object.entries(STICKERS).map(([name, src]) => ({ name, src }))
 
-// Little rotation helper so lists of cards feel hand-placed but stay stable between renders.
 export const tilt = (i, amount = 4) => {
   const pattern = [1, -0.8, 0.5, -1.1, 0.7, -0.4, 1.2, -0.6]
   return `${(pattern[i % pattern.length] * amount).toFixed(2)}deg`

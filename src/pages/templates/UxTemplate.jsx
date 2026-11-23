@@ -8,7 +8,6 @@ const STEPS = [
   { id: 'journey', label: 'User Journey' },
 ]
 
-/** Shared first half of the UX and Game templates (process steps). */
 export function UxProcess({ data: d, show }) {
   const steps = STEPS.filter((s) => show(s.id))
   return (

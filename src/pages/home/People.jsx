@@ -4,8 +4,8 @@ import Pill from '../../components/Pill'
 import { Sticker } from '../../components/Shared'
 import { NOTE_COLORS, STICKER_LIST, tilt } from '../../lib/theme'
 import { getGuestbook, signGuestbook, useData } from '../../lib/data'
+import photo from '../../assets/photo-web.jpg'
 
-/* Stamp-edged card mask, generated once (360 × 300 card, 9px scallops). */
 const scallopMask = (() => {
   const w = 360
   const h = 300
@@ -25,7 +25,6 @@ const scallopMask = (() => {
 
 const CARD_COLORS = ['var(--sky)', 'var(--blush)', 'var(--yellow)', 'var(--lilac)', 'var(--olive)', 'var(--cream)']
 
-/** "what people say ABOUT ME": drifting row of stamp-edged quote cards. */
 export function Testimonials({ items }) {
   if (!items?.length) return null
   const row = [...items, ...items]
@@ -57,7 +56,6 @@ export function Testimonials({ items }) {
   )
 }
 
-/** Intro block on the red stripes with polaroid + highlighted sentence. */
 export function AboutTeaser({ intro }) {
   const body =
     intro?.body ||
@@ -72,7 +70,7 @@ export function AboutTeaser({ intro }) {
         <div className="polaroid" data-reveal>
           <span className="polaroid__tape" aria-hidden="true" />
           <div className="polaroid__photo">
-            {intro?.photo_url ? <img src={intro.photo_url} alt="Portrait of Maryam Wessam" /> : <div className="media-placeholder" />}
+            <img src={intro?.photo_url || photo} alt="Portrait of Maryam Wessam" />
           </div>
           <Sticker name="disco" className="polaroid__sticker" />
         </div>
@@ -97,7 +95,6 @@ export function AboutTeaser({ intro }) {
   )
 }
 
-/** "leave YOUR MARK": guestbook form + approved notes from Supabase. */
 export function Guestbook() {
   const { data } = useData('guestbook', getGuestbook)
   const [notes, setNotes] = useState([])
@@ -169,7 +166,7 @@ export function Guestbook() {
               <p className="note__msg">{n.message}</p>
               <p className="note__by script">{n.name}</p>
               {n.pending && <small className="note__pending">waiting for approval</small>}
-              <img className="note__sticker" src={STICKER_LIST.find((s) => s.name === n.sticker)?.src} alt="" aria-hidden="true" />
+              <Sticker src={STICKER_LIST.find((s) => s.name === n.sticker)?.src} className="note__sticker" wobble={false} />
             </li>
           ))}
         </ul>

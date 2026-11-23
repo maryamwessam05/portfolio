@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from './supabase'
+import { HIDDEN_CATEGORIES } from '../config'
 
-/* ------------------------------------------------------------------ */
-/* Tiny cache + hook so pages share requests and render instantly on  */
-/* revisits. Every helper returns plain data or throws.                */
-/* ------------------------------------------------------------------ */
 const cache = new Map()
 
 export function useData(key, loader) {
@@ -42,7 +39,6 @@ const unwrap = ({ data, error }) => {
   return data
 }
 
-/* ---------------------------- projects ---------------------------- */
 const PROJECT_LIST_FIELDS = `
   id, title, slug, thumbnail_url, basics, is_featured, featured_order, created_at,
   project_categories ( is_primary, categories ( id, name, slug, template_key, display_order ) )
@@ -50,7 +46,7 @@ const PROJECT_LIST_FIELDS = `
 
 function shapeProject(p) {
   const cats = (p.project_categories ?? [])
-    .filter((pc) => pc.categories)
+    .filter((pc) => pc.categories && !HIDDEN_CATEGORIES.includes(pc.categories.slug))
     .sort((a, b) => Number(b.is_primary) - Number(a.is_primary) || a.categories.display_order - b.categories.display_order)
     .map((pc) => pc.categories)
   return { ...p, categories: cats, primaryCategory: cats[0] ?? null, basics: p.basics ?? {} }
@@ -93,10 +89,10 @@ export async function getProject(slug) {
 }
 
 export async function getCategories() {
-  return unwrap(await supabase.from('categories').select('*').order('display_order'))
+  const rows = unwrap(await supabase.from('categories').select('*').order('display_order'))
+  return rows.filter((c) => !HIDDEN_CATEGORIES.includes(c.slug))
 }
 
-/* ------------------------------ copy ------------------------------ */
 export async function getContent() {
   const rows = unwrap(await supabase.from('content').select('id, page, text_value, json_value').order('sort_order'))
   return Object.fromEntries(rows.map((r) => [r.id, r.json_value ?? r.text_value]))
@@ -124,7 +120,6 @@ export async function getTools() {
   return unwrap(await supabase.from('tools').select('name, type'))
 }
 
-/* ----------------------------- journal ---------------------------- */
 export async function getPosts() {
   return unwrap(
     await supabase
@@ -141,7 +136,6 @@ export async function getPost(slug) {
   )
 }
 
-/* ---------------------------- guestbook --------------------------- */
 export async function getGuestbook() {
   return unwrap(
     await supabase
@@ -154,21 +148,22 @@ export async function getGuestbook() {
 }
 
 export async function signGuestbook({ name, message }) {
-  // RLS allows anonymous inserts; entries stay "pending" until approved in the dashboard.
   unwrap(await supabase.from('guestbook_entries').insert({ name: name || 'Anonymous', message }))
 }
 
-/* ----------------------------- contact ---------------------------- */
 export async function sendContactMessage({ name, email, message, serviceId = null }) {
   unwrap(await supabase.from('contact_messages').insert({ name, email, message, service_id: serviceId }))
 }
 
-/* ----------------------------- helpers ---------------------------- */
 export const readMinutes = (text = '') => Math.max(1, Math.round(text.split(/\s+/).length / 200))
 
 export const formatDate = (iso) =>
   iso ? new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : ''
 
-export const coverOf = (p) => p?.basics?.cover_url || p?.thumbnail_url || ''
+export const coverOf = (p) => p?.thumbnail_url || p?.basics?.cover_url || ''
+export const headerCoverOf = (p) => p?.basics?.cover_url || p?.thumbnail_url || ''
 
 export const isVideo = (url = '') => /\.(mp4|webm|mov)(\?|$)/i.test(url)
+
+export const cvLink = (settings) =>
+  settings?.cv_url?.startsWith('http') ? settings.cv_url : '/Maryam_Wessam_CV.pdf'

@@ -3,7 +3,6 @@ import gsap from 'gsap'
 import { STICKER_LIST } from '../lib/theme'
 import './Preloader.css'
 
-// Pile layout (percent of the viewport) loosely following the Figma pile in the bottom-left corner.
 const PILE = Array.from({ length: 18 }, (_, i) => {
   const col = i % 6
   const row = Math.floor(i / 6)
@@ -16,7 +15,6 @@ const PILE = Array.from({ length: 18 }, (_, i) => {
   }
 })
 
-/** Sticker-drop preloader. Every sticker is a chunk of progress; at 100 the pile bursts and the page shows. */
 export default function Preloader({ onDone }) {
   const root = useRef(null)
   const [pct, setPct] = useState(0)
@@ -35,7 +33,6 @@ export default function Preloader({ onDone }) {
           0.3,
         )
         .to(counter, { v: 100, duration: 0.09 * stickers.length + 0.4, ease: 'none', onUpdate: () => setPct(Math.round(counter.v)) }, 0.3)
-        // burst
         .to(stickers, {
           x: () => gsap.utils.random(-1, 1) * window.innerWidth,
           y: () => gsap.utils.random(-1.2, 0.4) * window.innerHeight,

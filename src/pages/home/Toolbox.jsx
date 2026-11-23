@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react'
 import { useDraggable } from '../../lib/hooks'
 
-// Pill images exported from Figma at 2×, placed where they sit on the 1100 × 488 board.
 const TOOLS = [
   { id: 'illustrator', x: 64, y: 25, w: 252, tags: ['design'] },
   { id: 'blender', x: 331, y: 76, w: 237, tags: ['design'] },

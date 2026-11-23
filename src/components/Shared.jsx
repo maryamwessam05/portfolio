@@ -1,32 +1,92 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { STICKERS } from '../lib/theme'
 import { isVideo } from '../lib/data'
 import './Shared.css'
 
-/* ------------------------------ Media ------------------------------ */
-export function Media({ src, alt = '', className = '', video, poster, ...rest }) {
-  if (!src) return <div className={`media-placeholder ${className}`} aria-hidden="true" {...rest} />
-  if (video || isVideo(src))
-    return <video className={className} src={src} poster={poster} autoPlay muted loop playsInline {...rest} />
-  return <img className={className} src={src} alt={alt} loading="lazy" decoding="async" {...rest} />
+export function Media({ src, fallback, alt = '', className = '', video, poster, ...rest }) {
+  const [tries, setTries] = useState(0)
+  const [lastSrc, setLastSrc] = useState(src)
+  if (lastSrc !== src) {
+    setLastSrc(src)
+    setTries(0)
+  }
+  const url = tries === 0 ? src : tries === 1 && fallback && fallback !== src ? fallback : null
+  const fail = () => setTries((t) => (t === 0 && fallback && fallback !== src ? 1 : 2))
+  if (!url) return <div className={`media-placeholder ${className}`} aria-hidden="true" {...rest} />
+  if (video || isVideo(url))
+    return <video className={className} src={url} poster={poster} autoPlay muted loop playsInline onError={fail} {...rest} />
+  return <img className={className} src={url} alt={alt} loading="lazy" decoding="async" onError={fail} {...rest} />
 }
 
-/* ---------------------------- Sticker ------------------------------ */
-export function Sticker({ name, className = '', style, wobble = true }) {
+let sizeObs, viewObs
+function watchSticker(el) {
+  if (typeof window === 'undefined' || !('ResizeObserver' in window)) return () => {}
+  sizeObs ??= new ResizeObserver((entries) => {
+    for (const { target, contentRect: r } of entries) {
+      target.style.setProperty('--w', `${r.width}px`)
+      target.style.setProperty('--h', `${r.height}px`)
+      target.style.setProperty('--s', `${Math.min(r.width, r.height)}px`)
+    }
+  })
+  viewObs ??= new IntersectionObserver(
+    (entries) => entries.forEach((e) => e.isIntersecting && (e.target.dataset.in = '', viewObs.unobserve(e.target))),
+    { threshold: 0.4 },
+  )
+  sizeObs.observe(el)
+  viewObs.observe(el)
+  return () => {
+    sizeObs.unobserve(el)
+    viewObs.unobserve(el)
+  }
+}
+
+const insetCache = new Map()
+function cornerInset(img, side) {
+  const key = `${img.currentSrc}|${side}`
+  if (insetCache.has(key)) return insetCache.get(key)
+  let inset = 0
+  try {
+    const W = 80
+    const H = Math.max(1, Math.round((W * img.naturalHeight) / img.naturalWidth))
+    const c = document.createElement('canvas')
+    c.width = W
+    c.height = H
+    const ctx = c.getContext('2d', { willReadFrequently: true })
+    ctx.drawImage(img, 0, 0, W, H)
+    const d = ctx.getImageData(0, 0, W, H).data
+    let best = Infinity
+    for (let y = 0; y < H; y++)
+      for (let x = 0; x < W; x++)
+        if (d[(y * W + x) * 4 + 3] > 40) best = Math.min(best, side === 'br' ? W + H - x - y : H - y + x)
+    if (best < Infinity) inset = best / W
+  } catch {
+  }
+  insetCache.set(key, inset)
+  return inset
+}
+
+export function Sticker({ name, src, className = '', style, wobble = true, corner }) {
+  const ref = useRef(null)
+  const url = src || STICKERS[name]
+  const side = corner || ((name || url || '').length % 2 ? 'bl' : 'br')
+  useEffect(() => (ref.current ? watchSticker(ref.current) : undefined), [])
+  const onLoad = (e) => ref.current?.style.setProperty('--o', cornerInset(e.currentTarget, side))
   return (
-    <img
-      src={STICKERS[name]}
-      alt=""
+    <span
+      ref={ref}
       aria-hidden="true"
-      className={`sticker ${wobble ? 'wobble' : ''} ${className}`}
-      style={style}
-      loading="lazy"
-    />
+      className={`sticker peel peel--${side} ${wobble ? 'wobble' : ''} ${className}`}
+      style={{ ...style, '--src': `url("${url}")` }}
+    >
+      <img className="peel__img" src={url} alt="" loading="lazy" draggable="false" onLoad={onLoad} />
+      <span className="peel__flap-shadow">
+        <span className="peel__flap" />
+      </span>
+    </span>
   )
 }
 
-/* --------------------------- Closing CTA --------------------------- */
 const CTA_STICKERS = [
   { name: 'folder', style: { left: '42%', top: '4%', width: 'clamp(70px,8.6vw,125px)', '--r': '-10deg' } },
   { name: 'bag', style: { left: '4%', top: '21%', width: 'clamp(80px,10.6vw,153px)', '--r': '12deg' } },
@@ -54,7 +114,6 @@ export function ClosingCta() {
   )
 }
 
-/* ------------------------------- FAQ ------------------------------- */
 export function Faq({ items = [] }) {
   const [open, setOpen] = useState(0)
   return (
@@ -97,7 +156,6 @@ export function Faq({ items = [] }) {
   )
 }
 
-/* ---------------------------- Kind words --------------------------- */
 export function KindWords({ testimonial, image }) {
   if (!testimonial) return null
   return (
@@ -122,7 +180,6 @@ export function KindWords({ testimonial, image }) {
   )
 }
 
-/* ------------------------------ Up next ---------------------------- */
 export function UpNext({ project }) {
   if (!project) return null
   return (
@@ -141,7 +198,6 @@ export function UpNext({ project }) {
   )
 }
 
-/* ------------------------------ Loading ---------------------------- */
 export function PageLoading({ light }) {
   return (
     <div className={`page-loading ${light ? 'page-loading--light' : ''}`} role="status">

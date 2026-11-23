@@ -1,4 +1,3 @@
-/* ============================ PROJECT HERO ========================= */
 .p-hero {
   padding-top: clamp(40px, 6vw, 90px);
   padding-bottom: clamp(60px, 7vw, 100px);
@@ -125,21 +124,6 @@
   opacity: 0.85;
 }
 
-@media (max-width: 760px) {
-  .p-hero__head {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .p-hero__info {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .p-hero__cover {
-    aspect-ratio: 4 / 3;
-    border-radius: 16px;
-  }
-}
-
-/* ============================== PROCESS ============================ */
 .process {
   background: var(--cream);
   color: var(--burgundy);
@@ -169,7 +153,7 @@
 }
 
 .process__nav li::before {
-  content: '';
+  content: "";
   position: absolute;
   left: -21px;
   top: -4px;
@@ -222,7 +206,7 @@
 }
 
 .process__switch::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 2px;
   left: 2px;
@@ -233,7 +217,7 @@
   transition: transform 0.3s var(--ease);
 }
 
-.process__toggle[aria-checked='true'] .process__switch::after {
+.process__toggle[aria-checked="true"] .process__switch::after {
   transform: translateX(14px);
 }
 
@@ -478,41 +462,6 @@
   line-height: 1.45;
 }
 
-@media (max-width: 900px) {
-  .process__inner {
-    grid-template-columns: 1fr;
-  }
-  .process__nav {
-    position: sticky;
-    top: 0;
-    z-index: 5;
-    background: var(--cream);
-    margin-inline: calc(-1 * var(--page-pad));
-    padding: 10px var(--page-pad);
-    overflow-x: auto;
-  }
-  .process__nav ol {
-    position: static;
-    display: flex;
-    border: 0;
-    padding: 0;
-    gap: 18px;
-    white-space: nowrap;
-  }
-  .process__nav li::before {
-    display: none;
-  }
-  .process__toggle {
-    margin-bottom: 0;
-  }
-  .step__split,
-  .problem,
-  .journey {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ============================== SHOWCASE =========================== */
 .tpl-heading--left {
   text-align: left;
 }
@@ -749,7 +698,6 @@
   margin-top: 8px;
 }
 
-/* ========================== CREAM BAND + CARDS ===================== */
 .cream-band {
   background: var(--cream);
   color: var(--burgundy);
@@ -856,14 +804,6 @@
   aspect-ratio: 16 / 10;
 }
 
-@media (max-width: 800px) {
-  .brief__cols,
-  .concept {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ============================ BRANDING ============================= */
 .dots {
   display: flex;
   flex-wrap: wrap;
@@ -986,14 +926,6 @@
   font-size: 21px;
 }
 
-@media (max-width: 700px) {
-  .quad,
-  .type-pair {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ============================ RESEARCH ============================= */
 .methods__intro {
   margin-bottom: 32px;
 }
@@ -1119,15 +1051,6 @@
   margin-top: 6px;
 }
 
-@media (max-width: 800px) {
-  .method,
-  .findings,
-  .evidence {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ============================== CODING ============================= */
 .built {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1286,30 +1209,6 @@
   width: 100%;
 }
 
-@media (max-width: 900px) {
-  .built {
-    grid-template-columns: 1fr 1fr;
-  }
-  .flow {
-    grid-template-columns: 1fr 1fr;
-  }
-  .connected {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  .connected__line {
-    display: none;
-  }
-}
-
-@media (max-width: 560px) {
-  .built,
-  .flow {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ============================== 3D / GAME ========================== */
 .turntable__stage {
   background: var(--cream);
   border-radius: 20px;
@@ -1384,8 +1283,95 @@
   border-radius: 20px;
 }
 
+@media (max-width: 900px) {
+  .process__inner {
+    grid-template-columns: 1fr;
+  }
+  .process__nav {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--cream);
+    margin-inline: calc(-1 * var(--page-pad));
+    padding: 10px var(--page-pad);
+    overflow-x: auto;
+  }
+  .process__nav ol {
+    position: static;
+    display: flex;
+    border: 0;
+    padding: 0;
+    gap: 18px;
+    white-space: nowrap;
+  }
+  .process__nav li::before {
+    display: none;
+  }
+  .process__toggle {
+    margin-bottom: 0;
+  }
+  .step__split,
+  .problem,
+  .journey {
+    grid-template-columns: 1fr;
+  }
+
+  .built {
+    grid-template-columns: 1fr 1fr;
+  }
+  .flow {
+    grid-template-columns: 1fr 1fr;
+  }
+  .connected {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .connected__line {
+    display: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .brief__cols,
+  .concept {
+    grid-template-columns: 1fr;
+  }
+
+  .method,
+  .findings,
+  .evidence {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .p-hero__head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .p-hero__info {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .p-hero__cover {
+    aspect-ratio: 4 / 3;
+    border-radius: 16px;
+  }
+}
+
 @media (max-width: 700px) {
+  .quad,
+  .type-pair {
+    grid-template-columns: 1fr;
+  }
+
   .duo {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .built,
+  .flow {
     grid-template-columns: 1fr;
   }
 }

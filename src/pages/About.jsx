@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Pill from '../components/Pill'
 import { Media } from '../components/Shared'
-import { coverOf, getContent, getProjects, getSettings, useData } from '../lib/data'
+import { isVideo, coverOf, cvLink, getContent, getProjects, getSettings, useData } from '../lib/data'
 import './About.css'
 
 const BOOK_COLORS = ['var(--mandarine)', 'var(--lilac)', 'var(--olive)', 'var(--sky)', 'var(--blush)']
@@ -17,20 +17,24 @@ export default function About() {
   const { data: content } = useData('content', getContent)
   const { data: settings } = useData('settings', getSettings)
   const { data: projects } = useData('projects', getProjects)
-  const covers = (projects ?? []).map(coverOf).filter((u) => u && !u.endsWith('/'))
+  const covers = (projects ?? []).map(coverOf).filter((u) => u && !u.endsWith('/') && !isVideo(u))
   const intro =
     content?.about_intro ||
     "I'm Maryam, a curious designer based in Cairo. I connect visual storytelling, thoughtful experiences, and the code that brings them to life."
   const [first, ...rest] = intro.split(/(?<=\.)\s+/)
-  const cv = settings?.cv_url?.startsWith('http') ? settings.cv_url : null
 
   return (
     <div className="page about">
       <section className="a-hero">
-        <img className="a-hero__art" src="/assets/about-hero.png" alt="About me — a cut-out photo of Maryam surrounded by stickers" data-reveal />
+        <div className="a-hero__stage" data-reveal>
+          <img className="a-hero__art" src="/assets/about-hero.png" alt="About me — a cut-out photo of Maryam surrounded by stickers" />
+          <div className="a-hero__gif" aria-hidden="true">
+            <img src="/assets/about-photo.gif" alt="" />
+          </div>
+        </div>
         <div className="a-hero__actions" data-reveal>
           <Pill to="/works">View work</Pill>
-          <Pill href={cv ?? undefined} to={cv ? undefined : '/contact'} variant="filled" icon="/assets/ic-download.png">
+          <Pill href={cvLink(settings)} download="Maryam_Wessam_CV.pdf" variant="filled" icon="/assets/ic-download.png">
             Download CV
           </Pill>
         </div>
@@ -65,7 +69,6 @@ export default function About() {
   )
 }
 
-/** "Different tools. Same curiosity." — click a book spine to open that chapter. */
 function Bookshelf({ slides }) {
   const [i, setI] = useState(0)
   if (!slides.length) return null

@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import TitleStack from '../../components/TitleStack'
 import Pill from '../../components/Pill'
-import { Media } from '../../components/Shared'
+import { Media, Sticker } from '../../components/Shared'
 import { STICKER_LIST } from '../../lib/theme'
 import { coverOf } from '../../lib/data'
 
 const ROT = [4, -3, 2, -1.5, 3]
 
-/** "selected WORK": a messy stack of paper cards — click the top one to send it to the back. */
 export function SelectedWork({ projects }) {
   const [order, setOrder] = useState(() => projects.map((_, i) => i))
   const stackRef = useRef(null)
@@ -20,15 +19,14 @@ export function SelectedWork({ projects }) {
     busy.current = true
     const top = stackRef.current.querySelector('.paper-card.is-top')
     gsap
-      .timeline({
-        onComplete: () => {
-          setOrder((o) => [...o.slice(1), o[0]])
-          gsap.set(top, { clearProps: 'transform,opacity' })
-          busy.current = false
-        },
+      .timeline()
+      .to(top, { x: '72%', y: -30, rotate: 14, duration: 0.45, ease: 'power2.out' })
+      .add(() => setOrder((o) => [...o.slice(1), o[0]]))
+      .to(top, { x: 0, y: 0, rotate: 0, duration: 0.65, ease: 'power3.inOut' })
+      .add(() => {
+        gsap.set(top, { clearProps: 'transform' })
+        busy.current = false
       })
-      .to(top, { x: '60%', y: -40, rotate: 18, duration: 0.35, ease: 'power2.in' })
-      .to(top, { x: 0, y: 0, rotate: 0, opacity: 0.6, scale: 0.94, duration: 0.35, ease: 'power2.out' })
   }
 
   return (
@@ -66,7 +64,7 @@ export function SelectedWork({ projects }) {
                   </div>
                 </div>
               </div>
-              {depth === 0 && <img className="paper-card__sticker" src={STICKER_LIST[idx % STICKER_LIST.length].src} alt="" aria-hidden="true" />}
+              <Sticker src={STICKER_LIST[idx % STICKER_LIST.length].src} className="paper-card__sticker" wobble={false} />
             </article>
           )
         })}
@@ -80,7 +78,6 @@ export function SelectedWork({ projects }) {
   )
 }
 
-/** "more from THE DESK": endless drifting row of cards. */
 export function Desk({ projects }) {
   const row = [...projects, ...projects]
   return (

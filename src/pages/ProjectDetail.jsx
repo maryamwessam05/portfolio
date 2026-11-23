@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { KindWords, Media, PageLoading, UpNext } from '../components/Shared'
 import { categoryStyle } from '../lib/theme'
-import { coverOf, getProject, getProjects, useData } from '../lib/data'
+import { headerCoverOf, getProject, getProjects, useData } from '../lib/data'
 import NotFound from './NotFound'
 import UxTemplate from './templates/UxTemplate'
 import GameTemplate from './templates/GameTemplate'
@@ -24,7 +24,6 @@ const TEMPLATES = {
 
 function pickTemplate(p) {
   const order = [...new Set([...p.categories.map((c) => c.template_key), ...Object.keys(TEMPLATES)])]
-  // Prefer the primary category's template if it has data, otherwise the first template that has data.
   for (const key of order) {
     const [field] = TEMPLATES[key] ?? []
     if (field && p[field]) return key
@@ -46,7 +45,6 @@ export default function ProjectDetail() {
   const hidden = new Set(data.hidden_sections ?? [])
   const show = (k) => !hidden.has(k)
 
-  // Up next: the following project in the same category, falling back to the next one overall.
   const list = all ?? []
   const sameCat = list.filter((p) => p.primaryCategory?.slug === project.primaryCategory?.slug)
   const pool = sameCat.length > 1 ? sameCat : list
@@ -65,7 +63,7 @@ export default function ProjectDetail() {
 
 function ProjectHero({ project: p }) {
   const b = p.basics
-  const cover = coverOf(p)
+  const cover = headerCoverOf(p)
   const info = [
     ['Role', b.role],
     ['Year', b.year],
@@ -104,7 +102,7 @@ function ProjectHero({ project: p }) {
         </div>
       </div>
       <div className="p-hero__cover" data-reveal style={{ '--delay': '0.1s' }}>
-        <Media src={cover} alt={`${p.title} cover`} video={b.cover_type === 'video'} controls={b.cover_type === 'video' ? true : undefined} />
+        <Media src={cover} fallback={p.thumbnail_url} alt={`${p.title} cover`} video={b.cover_type === 'video'} controls={b.cover_type === 'video' ? true : undefined} />
       </div>
       <dl className="p-hero__info" data-reveal>
         {info.map(([k, v]) => (
