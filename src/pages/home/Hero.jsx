@@ -5,6 +5,7 @@ import { useIntroDone } from '../../lib/intro'
 import { coverOf, cvLink, isVideo } from '../../lib/data'
 import { useMediaQuery } from '../../lib/hooks'
 import './Hero.mobile.css'
+import './Hero.layers.css'
 
 const PILE = [
   [-296, 59, 494, 17], [667, 642, 494, 17], [449, 59, 494, 17], [182, 503, 474, 17], [-243, 652, 474, 17],

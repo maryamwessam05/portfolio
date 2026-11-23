@@ -28,7 +28,6 @@ export function useData(key, loader) {
     return () => {
       alive = false
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key])
 
   return state

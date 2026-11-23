@@ -2,6 +2,7 @@ import { useLayoutEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import Nav from './Nav'
 import Footer from './Footer'
+import ScrollTop from './ScrollTop'
 import { useRevealObserver } from '../lib/hooks'
 
 const LIGHT_ROUTES = ['/journal']
@@ -33,6 +34,7 @@ export default function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <ScrollTop />
     </div>
   )
 }

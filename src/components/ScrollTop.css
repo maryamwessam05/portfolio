@@ -1,0 +1,93 @@
+.scroll-top {
+  position: fixed;
+  right: clamp(16px, 3vw, 40px);
+  bottom: clamp(16px, 3vw, 40px);
+  z-index: 80;
+  width: clamp(52px, 4.6vw, 64px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--cream);
+  color: var(--cocoa);
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  opacity: 0;
+  translate: 0 24px;
+  scale: 0.8;
+  pointer-events: none;
+  transition:
+    opacity 0.35s var(--ease),
+    translate 0.5s var(--ease),
+    scale 0.5s var(--ease),
+    box-shadow 0.3s ease;
+}
+
+.scroll-top.is-shown {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+  pointer-events: auto;
+}
+
+.scroll-top svg {
+  position: absolute;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: url(#nav-brush);
+}
+
+/* hand-drawn ring around the edge */
+.scroll-top__ring {
+  inset: 3px;
+  width: calc(100% - 6px);
+  height: calc(100% - 6px);
+  stroke-width: 2.2;
+  transition: rotate 0.6s var(--ease);
+}
+
+.scroll-top__arrow {
+  width: 46%;
+  height: 46%;
+  stroke-width: 2.6;
+  transition: translate 0.35s var(--ease);
+}
+
+.scroll-top:hover {
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.34);
+}
+
+.scroll-top:hover .scroll-top__ring {
+  rotate: -40deg;
+}
+
+.scroll-top:hover .scroll-top__arrow {
+  animation: scroll-top-nudge 0.8s var(--ease) infinite;
+}
+
+.scroll-top:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 4px;
+}
+
+@keyframes scroll-top-nudge {
+  0%, 100% {
+    translate: 0 0;
+  }
+  45% {
+    translate: 0 -5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-top,
+  .scroll-top__ring {
+    transition: opacity 0.2s;
+  }
+  .scroll-top:hover .scroll-top__arrow {
+    animation: none;
+  }
+}

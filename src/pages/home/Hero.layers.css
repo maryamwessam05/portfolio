@@ -1,0 +1,11 @@
+/* Hero cards sit on top of the nav (the nav is z-index 50).
+   They let clicks pass through, so the nav links under a card still work,
+   and the hero text stays on top of everything. */
+.hero__cards {
+  z-index: 60;
+  pointer-events: none;
+}
+
+.hero__center {
+  z-index: 70;
+}
